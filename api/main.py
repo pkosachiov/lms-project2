@@ -3,7 +3,7 @@ from flask import Flask, redirect, url_for, session, request, abort
 from functools import wraps
 from data import db_session
 from data.users import User
-from data.news import News
+from data.apps import Apps
 from forms.user import RegisterForm
 from forms.user import LoginForm
 from flask import render_template, make_response
@@ -12,7 +12,6 @@ from flask_login import LoginManager
 from flask_login import login_user
 from flask_login import login_required
 from flask_login import current_user, logout_user
-from forms.news import NewsForm
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
@@ -31,11 +30,10 @@ def load_user(user_id):
 def index():
     db_sess = db_session.create_session()
     if current_user.is_authenticated:
-        news = db_sess.query(News).filter(
-            (News.user == current_user) | (News.is_private != True))
+        apps = db_sess.query(Apps)
     else:
-        news = db_sess.query(News).filter(News.is_private != True)
-    return render_template("index.html", news=news)
+        apps = db_sess.query(Apps)
+    return render_template("index.html", news=apps)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -44,16 +42,14 @@ def register():
         if form.password.data != form.password_again.data:
             return render_template('register.html', title='Регистрация',
                                    form=form,
-                                   message="Пароли не совпадают")
+                                   message="Passwords do not match")
         db_sess = db_session.create_session()
         if db_sess.query(User).filter(User.email == form.email.data).first():
             return render_template('register.html', title='Регистрация',
                                    form=form,
-                                   message="Такой пользователь уже есть")
+                                   message="User already have")
         user = User(
-            name=form.name.data,
             email=form.email.data,
-            about=form.about.data
         )
         user.set_password(form.password.data)
         db_sess.add(user)
