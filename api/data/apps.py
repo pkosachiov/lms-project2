@@ -9,5 +9,11 @@ class Apps(SqlAlchemyBase):
 
     id = sqlalchemy.Column(sqlalchemy.Integer, 
                            primary_key=True, autoincrement=True)
-    app_name = sqlalchemy.Column(sqlalchemy.String, nullable=True)
-    app_seen = sqlalchemy.Column(sqlalchemy.Boolean, nullable=True)
+    name = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+    category = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+    approve = sqlalchemy.Column(sqlalchemy.Boolean, nullable=True)
+    size = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
+    image_path = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+    app_type = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+    description = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+    seen = sqlalchemy.Column(sqlalchemy.Boolean, nullable=True)
