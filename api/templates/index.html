@@ -5,14 +5,12 @@
 {% for item in apps%}
 {% if current_user.is_authenticated and not item.seen %}
     <div class="col-md6 border rounded">
-        <h2>{{item.name}}</h2>
-    </div>
-    <div>
+        <h1>{{item.name}}</h1>
         <a href="/app_get_approve_status/{{ item.id }}&0" class="btn btn-success">
-            Не Требуется Подтверждение
+            Don't Need Approve
         </a>
         <a href="/app_get_approve_status/{{ item.id }}&1" class="btn btn-danger">
-            Требуется Подтверждение
+            Need Approve
         </a>
     </div>
 {% endif %}
