@@ -12,6 +12,8 @@ from flask_login import LoginManager
 from flask_login import login_user
 from flask_login import login_required
 from flask_login import current_user, logout_user
+import os
+import json
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
@@ -99,7 +101,7 @@ def session_test():
         f"Вы пришли на эту страницу {visits_count + 1} раз")
 
 
-def load_json_apps(folder_path="json example apps"):
+def load_json_apps(folder_path="jsons"):
     db_sess = db_session.create_session()
     if db_sess.query(Apps).first():
         return
@@ -112,17 +114,18 @@ def load_json_apps(folder_path="json example apps"):
         with open(path, "r", encoding="utf-8") as f:
             data = json.load(f)
         items = data if isinstance(data, list) else [data]
-        for item in items:
-            filtered = {k: v for k, v in item.items() if k in valid_keys}
+        for item in items[0]:
+            # filtered = {k: v for k, v in items[0][item].items() if k in valid_keys}
+            filtered = {}
+            filtered["name"] = items[0][item]["name"]
             filtered["seen"] = False
             filtered["approve"] = True
             app_obj = Apps(**filtered)
             db_sess.add(app_obj)
             total += 1
     db_sess.commit()
-    db_sess.commit()
 
 if __name__ == '__main__':
     db_session.global_init("db/blogs.db")
-    load_json_apps("json example apps")
+    load_json_apps("jsons")
     app.run(port=8080, host='127.0.0.1')
