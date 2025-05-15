@@ -6,7 +6,7 @@ Works via a system service (systemd unit). The user is limited by a "white" list
 
 ## Scheme
 
-![Qstore](qstore.drawio.svg)
+![lms-project2](qstore.drawio.svg)
 
 ## White list
 
@@ -16,4 +16,4 @@ the user name is saved in the request for installing flatpak packages at the use
 
 ## Screen
 
-![Qstore](qstore-api.png)
+![lms-project2](qstore-api.png)
