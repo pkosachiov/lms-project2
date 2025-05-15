@@ -1,8 +1,6 @@
 # lms-project2
 
-Application store for an import-independent corporate environment (Linux).
-Allows installation of certain software with user rights.
-Works via a system service (systemd unit). The user is limited by a "white" list of software.
+This is a branch of the main Qstore project allocated to a separate repository for the separation of powers and organization of the API and the system administrator part. In the future, it is necessary to attach the API part to the main branch of the Qstore project. This project displays an approximate picture of creating a WhiteList from applications provided from sources such as repositories, flatpack, packages and ansible.
 
 ## Scheme
 
