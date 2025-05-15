@@ -98,6 +98,31 @@ def session_test():
     return make_response(
         f"Вы пришли на эту страницу {visits_count + 1} раз")
 
+
+def load_json_apps(folder_path="json example apps"):
+    db_sess = db_session.create_session()
+    if db_sess.query(Apps).first():
+        return
+    valid_keys = {col.name for col in Apps.__table__.columns}
+    total = 0
+    for fn in os.listdir(folder_path):
+        if not fn.lower().endswith(".json"):
+            continue
+        path = os.path.join(folder_path, fn)
+        with open(path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        items = data if isinstance(data, list) else [data]
+        for item in items:
+            filtered = {k: v for k, v in item.items() if k in valid_keys}
+            filtered["seen"] = False
+            filtered["approve"] = True
+            app_obj = Apps(**filtered)
+            db_sess.add(app_obj)
+            total += 1
+    db_sess.commit()
+    db_sess.commit()
+
 if __name__ == '__main__':
     db_session.global_init("db/blogs.db")
+    load_json_apps("json example apps")
     app.run(port=8080, host='127.0.0.1')
